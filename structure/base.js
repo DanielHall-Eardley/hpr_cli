@@ -4,7 +4,8 @@ const dirStructure = [
     folders: [
       {
         name: 'home',
-        files: ['home.ejs', 'home.js', 'home.css']
+        files: ['home.ejs', 'home.js', 'home.css'],
+        folders: ['components']
       }
     ]
   },
