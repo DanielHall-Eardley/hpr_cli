@@ -1,7 +1,7 @@
 import server from '../files/server.js';
 import home from '../files/home.ejs'
 
-const dirStructure = [
+export const dirStructure = [
   {
     name: 'pages',
     folders: [
@@ -23,4 +23,4 @@ const dirStructure = [
     files: [server],
     folders: ['routes', 'controllers']
   }
-]
+];
