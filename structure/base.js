@@ -1,10 +1,13 @@
+import server from '../files/server.js';
+import home from '../files/home.ejs'
+
 const dirStructure = [
   {
     name: 'pages',
     folders: [
       {
         name: 'home',
-        files: ['home.ejs', 'home.js', 'home.css'],
+        files: [home, 'home.js', 'home.css'],
         folders: ['components']
       }
     ]
@@ -14,7 +17,10 @@ const dirStructure = [
     name: 'ssrRoutes',
     files: ['routes.js']
   },
-  'routes',
-  'controllers',
-  'util'
+  'util',
+  {
+    name: 'api',
+    files: [server],
+    folders: ['routes', 'controllers']
+  }
 ]
