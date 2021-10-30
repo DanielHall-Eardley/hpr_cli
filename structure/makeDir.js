@@ -1,6 +1,8 @@
-import { mkdirSync } from 'fs';
+const { mkdirSync } = require('fs');
 
-export function makeDir (dirName) {
-  const err = mkdirSync(dirname);
-  if (err) throw error;
+exports.makeDir = function (
+  absolutePath, 
+  createDir = mkdirSync
+) {
+  createDir(absolutePath);
 }

@@ -1,13 +1,21 @@
-import server from '../files/server.js';
-import home from '../files/home.ejs'
+const { server } = require('../files/server.js');
+const { homeEjs } = require('../files/home.js');
 
-export const dirStructure = [
+exports.dirStructure = [
   {
     name: 'pages',
+    files: ['entry.js', 'entry.ejs', 'entry.css'],
     folders: [
       {
         name: 'home',
-        files: [home, 'home.js', 'home.css'],
+        files: [
+          { 
+            data: homeEjs,
+            name: 'home.ejs' 
+          }, 
+          'home.js', 
+          'home.css'
+        ],
         folders: ['components']
       }
     ]
@@ -20,7 +28,12 @@ export const dirStructure = [
   'util',
   {
     name: 'api',
-    files: [server],
+    files: [
+      {
+        data: server,
+        name: 'server.js'
+      }
+    ],
     folders: ['routes', 'controllers']
   }
 ];
