@@ -49,3 +49,10 @@ each component ejs file needs to be parsed for dom interaction events
       component title will be prepended before classname - css module style
  
 */
+
+const { getPages } = require('./getPages.js');
+
+exports.compile = function (relativePath=__dirname) {
+  const pages = getPages(relativePath);
+  console.log(pages);
+}
