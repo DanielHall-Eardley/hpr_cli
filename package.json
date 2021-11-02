@@ -1,0 +1,22 @@
+{
+  "name": "hpr_cli",
+  "version": "1.0.0",
+  "description": "vanilla ice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielHall-Eardley/hpr_cli.git"
+  },
+  "author": "Daniel Hall-Eardley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanielHall-Eardley/hpr_cli/issues"
+  },
+  "homepage": "https://github.com/DanielHall-Eardley/hpr_cli#readme",
+  "dependencies": {
+    "esbuild": "^0.13.11"
+  }
+}

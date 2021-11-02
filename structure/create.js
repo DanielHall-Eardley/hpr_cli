@@ -1,7 +1,7 @@
-const { makeDir } = require('./makeDir.js');
-const { makeFiles } = require('./makeFiles.js');
-const { normalizePath } = require('./normalizePath');
-const { getName } = require('./getName');
+const { makeDir } = require('../fileMod/makeDir.js');
+const { makeFiles } = require('../fileMod/makeFiles');
+const { normalizePath } = require('../fileMod/normalizePath');
+const { getName } = require('../fileMod/getName');
 
 /* This function expects an array with
 elements that are either a string or object

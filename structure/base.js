@@ -4,7 +4,6 @@ const { homeEjs } = require('../files/home.js');
 exports.dirStructure = [
   {
     name: 'pages',
-    files: ['entry.js', 'entry.ejs', 'entry.css'],
     folders: [
       {
         name: 'home',
