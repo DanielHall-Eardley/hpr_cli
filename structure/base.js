@@ -1,5 +1,5 @@
 const { server } = require('../files/server.js');
-const { homeEjs } = require('../files/home.js');
+const { basePage } = require('../files/basePage.js');
 
 exports.dirStructure = [
   {
@@ -9,7 +9,7 @@ exports.dirStructure = [
         name: 'home',
         files: [
           { 
-            data: homeEjs,
+            data: basePage('home'),
             name: 'home.ejs' 
           }, 
           'home.js', 
@@ -34,5 +34,9 @@ exports.dirStructure = [
       }
     ],
     folders: ['routes', 'controllers']
+  },
+  {
+    name: 'global',
+    files: ['global.css']
   }
 ];

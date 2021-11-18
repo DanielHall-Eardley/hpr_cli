@@ -1,8 +1,8 @@
-const { entryPoints } = require('./entryPoints');
-
-exports.config = {
-  entryPoints,
-  bundle: true,
-  minify: true,
-  outdir: 'dist',
+exports.config = function (entryPoints) {
+  return {
+    entryPoints,
+    bundle: true,
+    minify: true,
+    outdir: 'dist',
+  }
 }
