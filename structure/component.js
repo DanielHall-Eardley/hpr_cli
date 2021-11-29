@@ -1,8 +1,8 @@
 const { createCompFiles } = require('../fileMod/createCompFiles');
 
-exports.componentStructure = function (componentName) {
-  return {
+exports.component = function (componentName) {
+  return [{
     name: componentName,
     files: createCompFiles(componentName)
-  }
+  }]
 };

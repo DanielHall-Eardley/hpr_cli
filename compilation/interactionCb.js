@@ -1,14 +1,13 @@
 const { interactionConstants } = require('../constants.js');
 const { INT_SUBMIT, INT_INPUT } = interactionConstants;
 
-exports.interactionCb = function (interactionType, name) {
-  const fnBody = ` {
-
-  }`
-
+exports.interactionCb = function (interactionType, fnBody='') {
+  
   if (interactionType === INT_SUBMIT || interactionType === INT_INPUT) {
-    return `function ${name}_${interactionType}(event)${fnBody}`
+    const fn = new Function('event', fnBody);
+    return fn;
   }
 
-  return `function ${name}_${interactionType}(element, data)${fnBody}`
+  const fn = new Function ('element', 'data', fnBody);
+  return fn;
 }

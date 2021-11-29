@@ -18,7 +18,10 @@
   "homepage": "https://github.com/DanielHall-Eardley/hpr_cli#readme",
   "dependencies": {
     "esbuild": "^0.13.11",
+    "js-stringify": "^1.0.2",
     "jsdom": "^18.0.1",
+    "prettier": "^2.5.0",
+    "stringify-object": "^4.0.0",
     "uuid": "^8.3.2"
   }
 }

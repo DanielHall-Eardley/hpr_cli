@@ -1,7 +1,9 @@
-const { create } = require('./create');
+const { create } = require('./structure/create');
+const { component } = require('./structure/component');
 const path = require('path');
 
 const componentName = process.argv.slice(2, 4)[0];
-const componentFolder = path.join(__dirname, 'components');
+const componentFolderPath = path.join(__dirname, 'components');
+const componentStructure = component(componentName);
 
-create(componentName, componentFolder);
+create(componentStructure, componentFolderPath);
