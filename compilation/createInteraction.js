@@ -5,15 +5,14 @@ const { getInteractionFns } = require('./getInteractionFns.js');
 const { interactionConstants } = require('../constants.js');
 const { INT_SUBMIT, INT_INPUT, INT_UPDATE } = interactionConstants;
 
-//need to recurse through html to get nested elements
 exports.createInteraction = function (html, interactionPath, ) {
   let interactionObj = {
     [INT_SUBMIT]: {},
     [INT_INPUT]: {},
     [INT_UPDATE]: {},
   }
-  const existingInteractionFns = getInteractionFns(interactionPath);
   
+  const existingInteractionFns = getInteractionFns(interactionPath);
   const checkedParent = checkForId(html.parent);
   const interaction = createInteractionObj(checkedParent, existingInteractionFns);
   const newIntObj = addInteraction(interaction, interactionObj);

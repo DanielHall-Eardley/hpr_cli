@@ -16,13 +16,14 @@ const path = require('path')
 const { getHtmlElements } = require('./getHtmlElements.js');
 const { createInteraction } = require('./createInteraction.js');
 const { writeComponent } = require('../fileMod/writeComponent.js');
+const { writePage } = require('../fileMod/writePage.js');
 
 exports.compile = function (relativePath=__dirname) {
   const pages = getPages(relativePath);
 
-  pages.forEach(page => {
-    const pagePath = path.join(relativePath, 'pages', page);
-    const componentPath = path.join(relativePath, 'pages', page, 'components');
+  pages.forEach(pageName => {
+    const pagePath = path.join(relativePath, 'pages', pageName);
+    const componentPath = path.join(relativePath, 'pages', pageName, 'components');
     const components = fs.readdirSync(componentPath);
 
     components.forEach(compName => {
