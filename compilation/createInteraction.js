@@ -1,11 +1,11 @@
 const { createInteractionObj } = require('./createInteractionObj.js');
 const { addInteraction } = require('./addInteraction.js');
-const { checkForId } = require('./checkForId');
+const { parseHtmlElement } = require('./parseHtmlElement');
 const { getInteractionFns } = require('./getInteractionFns.js');
 const { interactionConstants } = require('../constants.js');
 const { INT_SUBMIT, INT_INPUT, INT_UPDATE } = interactionConstants;
 
-exports.createInteraction = function (html, interactionPath, ) {
+exports.createInteraction = function (html, interactionPath, compName) {
   let interactionObj = {
     [INT_SUBMIT]: {},
     [INT_INPUT]: {},
@@ -13,8 +13,8 @@ exports.createInteraction = function (html, interactionPath, ) {
   }
   
   const existingInteractionFns = getInteractionFns(interactionPath);
-  const checkedParent = checkForId(html.parent);
-  const interaction = createInteractionObj(checkedParent, existingInteractionFns);
+  const parsedParent = parseHtmlElement(html.parent);
+  const interaction = createInteractionObj(parsedParent, existingInteractionFns);
   const newIntObj = addInteraction(interaction, interactionObj);
   interactionObj = newIntObj
 
@@ -23,20 +23,20 @@ exports.createInteraction = function (html, interactionPath, ) {
     if (!children || children.length === 0) return
 
     array.forEach((htmlElement) => {
-      const checkedElement = checkForId(htmlElement); 
-      const interaction = createInteractionObj(checkedElement, existingInteractionFns);
+      const parsedElement = parseHtmlElement(htmlElement, compName); 
+      const interaction = createInteractionObj(parsedElement, existingInteractionFns);
       const newIntObj = addInteraction(interaction, interactionObj);
       interactionObj = newIntObj
       
-      parent.append(checkedElement);
-      recurseHtml(checkedElement, checkedElement.children);
+      parent.append(parsedElement);
+      recurseHtml(parsedElement, parsedElement.children);
     })
   }
 
-  recurseHtml (checkedParent, html.children)
+  recurseHtml (parsedParent, html.children)
 
   return { 
     interactions: interactionObj,
-    html: checkedParent 
+    html: parsedParent
   };
 }

@@ -1,7 +1,6 @@
 /* todo
   create the css file using the same process of 
   creating js interaction files by parsing html.
-  create css name structure = [componentName]_[className]_[uuid]
   import all css into page level css
   do the same for ejs
   import interaction into eventlistener adding function
@@ -32,7 +31,7 @@ exports.compile = function (relativePath=__dirname) {
 
       const htmlFile = fs.readFileSync(htmlFilePath, { encoding: 'utf8'});
       const html = getHtmlElements(htmlFile);
-      const data = createInteraction(html, interactionPath);
+      const data = createInteraction(html, interactionPath, compName);
       writeComponent(data, htmlFilePath, interactionPath);
     })
 

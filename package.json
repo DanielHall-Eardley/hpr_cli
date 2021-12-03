@@ -23,5 +23,9 @@
     "prettier": "^2.5.0",
     "stringify-object": "^4.0.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-config-prettier": "^8.3.0"
   }
 }
