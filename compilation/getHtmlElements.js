@@ -1,15 +1,11 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
+const dom = require("jsdom");
+
 exports.getHtmlElements = function (html) {
-  const dom = new JSDOM(`<body></body>`);
-  const mockBody = dom.window.document.body;
-  
-  mockBody.innerHTML = html;
-  const parent = mockBody.children[0];
-  const children = parent.children;
-  return {
-    parent,
-    children
-  }
+  const document = new dom.JSDOM(`<div></div>`).window.document;
+  const div = document.querySelector('div');
+  div.innerHTML = html;
+  return div;
 }

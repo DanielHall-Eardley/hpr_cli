@@ -13,26 +13,26 @@ const { createEntryPoints } = require('../buildConfig/createEntryPoints.js');
 const fs = require('fs');
 const path = require('path')
 const { getHtmlElements } = require('./getHtmlElements.js');
-const { createInteraction } = require('./createInteraction.js');
+const { parse } = require('./parse.js');
 const { writeComponent } = require('../fileMod/writeComponent.js');
 const { writePage } = require('../fileMod/writePage.js');
+const { createCompFilePath } = require('../fileMod/createCompFilePath');
 
 exports.compile = function (relativePath=__dirname) {
   const pages = getPages(relativePath);
 
   pages.forEach(pageName => {
     const pagePath = path.join(relativePath, 'pages', pageName);
-    const componentPath = path.join(relativePath, 'pages', pageName, 'components');
+    const componentPath = path.join(pagePath, 'components');
     const components = fs.readdirSync(componentPath);
 
     components.forEach(compName => {
-      const htmlFilePath = path.join(componentPath, compName, `${compName}.ejs`);
-      const interactionPath = path.join(componentPath, compName);
-
+      const basePath = path.join(componentPath, compName);
+      const htmlFilePath = createCompFilePath(basePath, 'ejs');
       const htmlFile = fs.readFileSync(htmlFilePath, { encoding: 'utf8'});
       const html = getHtmlElements(htmlFile);
-      const data = createInteraction(html, interactionPath, compName);
-      writeComponent(data, htmlFilePath, interactionPath);
+      const data = parse(html, basePath);
+      writeComponent(data, basePath);
     })
 
     writePage(components, pagePath);

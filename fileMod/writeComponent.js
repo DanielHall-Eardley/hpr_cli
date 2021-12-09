@@ -1,19 +1,17 @@
 const fs = require('fs');
 const path = require('path')
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { format } = require('prettier');
+const { writeHTMLComponent } = require('./writeHTMLComponent');
+const { createCompFilePath } = require('./createCompFilePath');
 
-exports.writeComponent = async function(data, htmlPath, interactionPath) {
-  const dom = new JSDOM(`<body></body>`);
-  const mockBody = dom.window.document.body;
-  mockBody.append(data.html);
-  const stringifiedHtml = format(mockBody.innerHTML, { parser: 'html'});
-  fs.writeFileSync(htmlPath, stringifiedHtml);
-  
+exports.writeComponent = async function(data, basePath) {
+  const htmlFilePath = createCompFilePath(basePath, 'ejs');
+  writeHTMLComponent(data.html, htmlFilePath)
+  const cssFilePath = createCompFilePath(basePath, 'css');
+  fs.writeFileSync(cssFilePath, data.css);
+
   const fileKeys = Object.keys(data.interactions);
   fileKeys.forEach(fileName => {
-    const filePath = path.join(interactionPath, `${fileName}.js`);
+    const filePath = path.join(basePath, `${fileName}.js`);
     import('stringify-object')
       .then(module => {
         const stringifyObject = module.default;

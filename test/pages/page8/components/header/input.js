@@ -6,9 +6,7 @@ module.exports = {
     name: 'counter',
     fn: function anonymous(event
 ) {
-  const time = 12;
-  const hours = 14;
-  const totalTime = time + hours;
+
 }
   },
   '6081df1f-c882-4a68-94ac-9a0081af9af6': {
@@ -18,7 +16,7 @@ module.exports = {
     name: 'title',
     fn: function anonymous(event
 ) {
-  
+
 }
   }
 };

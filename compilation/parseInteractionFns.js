@@ -1,54 +1,54 @@
-/* data structure
-  [interactionType]: {
-    id: {
-      id: [id]
-      name: [data.name]
-      listener: [fn]
-      eventType: [type]
-    }
-  }
-} */
-const { formatFnBody } = require('./formatFnBody.js');
+const { formatBody } = require('./formatBody.js');
 const { removeQuotes } = require('./removeQuotes');
 
-exports.parseInteractionFns = function (fileData) {
-  const array = fileData.toString().split(' ');
-  const existingInteractions = array.slice(3)
+function parseState (array) {
+  const stringArray = array;
+  const matchArray = ['id:', 'function', '{', '}'];
+  let currentIndex = 0;
   const interactionFns = {};
   let id = null;
-  let insideFn = null
   let fnStart = null;
-  let fnEnd = null;
 
-  for (let index = 0; index < existingInteractions.length; index += 1) {
-    const currentString = existingInteractions[index];
-   
-    if (id && insideFn && fnStart && fnEnd) {
-      const existingFnBody = existingInteractions.slice(fnStart, fnEnd);
-      const sanitizedFnBody = formatFnBody(existingFnBody);
-      const sanitizedId = removeQuotes(id);
-;     interactionFns[sanitizedId] = sanitizedFnBody;
-      id = null;
-      insideFn = null
-      fnStart = null;
-      fnEnd = null;
-    }
+  return {
+    checkMatch(interactionIndex) {
+      const currentString = stringArray.at(interactionIndex)
+      const currentMatch = matchArray.at(currentIndex);
+      if (currentString.match(currentMatch)) {
+        if (currentIndex === 0) {
+          id = stringArray.at(interactionIndex + 1);
+        }
+        
+        if (currentIndex === 2) {
+          fnStart = interactionIndex
+        }
 
-    if (currentString.match('id:')) {
-      id = existingInteractions[index + 1];
-    }
+        if (currentIndex === 3) {
+          const fnEnd = interactionIndex + 1;
+          const existingFnBody = stringArray.slice(fnStart, fnEnd);
+          const sanitizedFnBody = formatBody(existingFnBody);
+          const sanitizedId = removeQuotes(id);
+          interactionFns[sanitizedId] = sanitizedFnBody;
+          currentIndex = 0;
+          return;
+        }
 
-    if (id && currentString.match('function')) {
-      insideFn = true;
-    }
-
-    if (id && insideFn && currentString.match('{')) {
-      fnStart = index;
-    }
-
-    if (id && insideFn && fnStart && currentString.match('}')) {
-      fnEnd = index + 1;
+        currentIndex += 1
+      }
+    },
+    getInteractionFns() {
+      return interactionFns
     }
   }
-  return interactionFns;
+}
+
+exports.parseInteractionFns = function (dataString) {
+  const array = dataString.toString().split(' ');
+  const existingInteractions = array.slice(3)
+  const state = parseState(existingInteractions);
+
+  for (let index = 0; index < existingInteractions.length; index += 1) {
+    state.checkMatch(index);
+  }
+
+  return state.getInteractionFns;
 };

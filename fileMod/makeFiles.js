@@ -2,7 +2,7 @@ const { writeFileSync } = require("fs");
 const { normalizePath } = require('./normalizePath');
 const { getName } = require('./getName');
 
-/* creates files = require( an array.
+/* creates files = require an array.
 a string element indicates and empty file,
 an onject indicates a file with data to be written */
 exports.makeFiles = function (
