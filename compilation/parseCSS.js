@@ -1,8 +1,14 @@
 const { formatBody } = require('./formatBody.js');
-const { removeQuotes } = require('./removeQuotes');
+
+function trimBracket (bracketString) {
+  const findBracketindex = bracketString.findIndex(char => char === '}');
+  const trimString = bracketString.slice(0, findBracketindex);
+  return trimString;
+}
 
 function checkForId (string) {
-  const id = string.split('_')[2];
+  const stringArray = string.split('_');
+  const id = stringArray[2]
   return id;
 }
 
@@ -16,22 +22,23 @@ function parseState (array) {
     checkMatch(cssIndex) {
       const currentString = stringArray.at(cssIndex)
 
+      if (id && bodyStart && currentString.match('}')) {
+        const bodyEnd = cssIndex + 1;
+        const existingCSSBody = stringArray.slice(bodyStart, bodyEnd);
+        console.log(existingCSSBody)
+        const sanitizedCSSBody = formatBody(existingCSSBody);
+        console.log(existingCSSBody)
+        css[id] = sanitizedCSSBody;
+        id = null;
+        bodyStart = null;
+      }
+     
       if (checkForId(currentString)) {
         id = checkForId(currentString)
       }
 
       if (id && currentString.match('{')) {
         bodyStart = cssIndex + 1;
-      }
-        
-      if (id && bodyStart && currentString.match('}')) {
-        const bodyEnd = cssIndex + 1;
-        const existingCSSBody = stringArray.slice(bodyStart, bodyEnd);
-        const sanitizedCSSBody = formatBody(existingCSSBody);
-        const sanitizedId = removeQuotes(id);
-        css[sanitizedId] = sanitizedCSSBody;
-        id = null;
-        bodyStart = null;
       }
     },
     getCSS() {
@@ -43,7 +50,6 @@ function parseState (array) {
 exports.parseCSS = function (dataString) {
   const stringArray = dataString.toString().split(' ');
   const state = parseState(stringArray);
-  console.log(stringArray)
   for (let index = 0; index < stringArray.length; index += 1) {
     state.checkMatch(index);
   }

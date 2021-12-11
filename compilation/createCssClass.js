@@ -5,6 +5,6 @@ exports.createCssClass = function(htmlElement, existingClasses) {
   const existingCss = existingClasses[classId] ?? '';
   const classString = `.${className} {
     ${existingCss}
-}`
+}\n`
   return classString;
 };
