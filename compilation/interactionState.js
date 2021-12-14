@@ -11,8 +11,8 @@ exports.interactionState = function() {
   return {
     addInteraction(interaction) {
       if (interaction) {
-        const { interactionType, id } = interaction;
-        state[interactionType][id] = interaction;
+        const { interactionType, elementId } = interaction;
+        state[interactionType][elementId] = interaction;
       }
     },
     getState() {

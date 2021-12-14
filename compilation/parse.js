@@ -1,35 +1,28 @@
 const { createInteractionObj } = require('./createInteractionObj.js');
-const { createCssClass } = require('./createCssClass.js');
+const { updateCSS } = require('./updateCSS.js');
 const { interactionState } = require('./interactionState.js');
 const { CSSState } = require('./cssState.js');
 const { parseHtmlElement } = require('./parseHtmlElement');
 const { readFiles } = require('../fileMod/readFiles.js');
-const { interactionConstants } = require('../constants.js');
-const { INT_SUBMIT, INT_INPUT, INT_UPDATE } = interactionConstants;
+const { importInteractions } = require('./importInteractions');
 
-const interactionFiles = [
-  INT_INPUT,
-  INT_SUBMIT,
-  INT_UPDATE
-];
-
-exports.parse = function (html, basePath) {
+exports.parse = async function (html, basePath) {
   const intState = interactionState();
   const cssState = CSSState();
-  const existingInteractionFns = readFiles(basePath, interactionFiles, 'js');
+  const existingInteractions = await importInteractions(basePath);
   const compName = basePath.split('/').at(-1);
-  const existingCss = readFiles(basePath, [compName], 'css');
+  const cssFile = readFiles(basePath, [compName], 'css')[0];
 
   function recurseHtml (parent) {
     const children = Array.from(parent.children);
-  if (!children || children.length === 0) return
+    if (!children || children.length === 0) return
 
     children.forEach((childHtmlElement) => {
       const parsedElement = parseHtmlElement(childHtmlElement, compName); 
-      const interaction = createInteractionObj(parsedElement, existingInteractionFns);
+      const interaction = createInteractionObj(parsedElement, existingInteractions);
       intState.addInteraction(interaction);
-      const cssClass = createCssClass(parsedElement, existingCss);
-      cssState.addCss(cssClass);
+      const className = parsedElement.className;
+      cssState.addClassName(className);
       parent.append(parsedElement);
       recurseHtml(parsedElement);
     })
@@ -41,9 +34,10 @@ exports.parse = function (html, basePath) {
   to be able to use js to manipulate. All components must
   be wrapped in one html element to retain the entire component. */
   const componentHtmlEntry = html.children[0];
+  const updatedCSS = updateCSS(cssFile.data, cssState.getClassNames());
 
   return { 
-    css: cssState.getState(),
+    css: updatedCSS,
     interactions: intState.getState(),
     html: componentHtmlEntry
   };

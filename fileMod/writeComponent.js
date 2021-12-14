@@ -17,7 +17,7 @@ exports.writeComponent = async function(data, basePath) {
         const stringifyObject = module.default;
         const fileData = stringifyObject(
           data.interactions[fileName], 
-          { indent: '  ', inlineCharacterLimit: 30 }
+          { indent: '  ', inlineCharacterLimit: 50 }
         );
         const addExport = `module.exports = ${fileData};`
         fs.writeFileSync(filePath, addExport)

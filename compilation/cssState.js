@@ -1,14 +1,15 @@
 exports.CSSState = function() {
-  let state = '';
+  let classNames = {};
 
   return {
-    addCss(className) {
+    addClassName(className) {
       if (className) {
-        state += `${className}\n`
+        const id = className.split('_')[2];
+        classNames[id] = className;
       }
     },
-    getState() {
-      return state;
+    getClassNames() {
+      return classNames;
     }
   }
 };

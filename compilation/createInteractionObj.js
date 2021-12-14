@@ -1,31 +1,27 @@
 const { interactionCb } = require('./interactionCb.js');
-const { interactionConstants } = require('../constants.js');
-const { INT_UPDATE } = interactionConstants;
+const { parseInteractionAttributes } = require('./parseInteractionAttributes');
+
+function getInteractionFn (interactions, id) {
+  if (interactions[id]) {
+    return interactions[id].fn;
+  }
+
+  return null;
+}
 
 exports.createInteractionObj = function (htmlElement, existingInteractionFns) {
-  const interactionType = htmlElement.dataset.interaction;
-  if (interactionType) {
-    let eventType = htmlElement.dataset.eventType;
-    const name = htmlElement.dataset.name;
-    const elementId = htmlElement.getAttribute('id');
-    const interactionType = htmlElement.dataset.interaction
-    const existingFn = existingInteractionFns[elementId];
-    const fn = interactionCb(interactionType, existingFn);
-
-    if (interactionType === INT_UPDATE) {
-      eventType = INT_UPDATE
-    }
+  const interaction = parseInteractionAttributes(htmlElement);
+  if (interaction.interactionType) {
+    const existingFn = getInteractionFn(existingInteractionFns, interaction.elementId);
+    const fn = interactionCb(interaction.interactionType, existingFn);
 
     const interactionObj = {
-      interactionType,
-      id: elementId,
-      eventType,
-      name,
+      ...interaction,
       fn 
     };
   
-    return interactionObj
+    return interactionObj;
   }
   
   return null;
-}
+};
