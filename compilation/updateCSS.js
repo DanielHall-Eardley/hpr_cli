@@ -1,15 +1,18 @@
 function classNameState (newClassNames) {
-  classNames = {...newClassNames};
+  let classNames = {...newClassNames};
 
   return {
-    updateClassName(id) {
+    updateClassName(existingClassName, id) {
+      /* Check if the existing css class 
+      still has a className attached to a html element. */
       if (classNames[id]) {
-        const newClassName = `.${classNames[id]}`;
+        const existingString = existingClassName.split('.')[0];
+        const newClassName = `${existingString}.${classNames[id]}`;
         classNames[id] = null;
         return newClassName;
       }
 
-      return null;
+      return '\n';
     },
     getNewClassNames() {
       const objectKeys = Object.keys(classNames);
@@ -28,16 +31,29 @@ function classNameState (newClassNames) {
 
 function updateClassNames (existingCSS, state) {
   const updatedCSS = existingCSS.map(string => {
-    const checkId = string.split('_')[2];
-    if (checkId) {
-      const newClassName = state.updateClassName(checkId);
-      return newClassName ?? '\n';
+    const id = string.split('_')[2];
+    if (id) {
+      const newClassName = state.updateClassName(string, id);
+      return newClassName;
     }
 
     return string;
   })
 
   return updatedCSS;
+}
+
+function addNewCSS (newClassNames) {
+  const newCSS = newClassNames.map(className => {
+    return `.${className} 
+{
+
+}
+
+`;
+  });
+
+  return newCSS;
 }
 
 /* Seperate the css in to an array of strings,
@@ -47,21 +63,10 @@ from the parsed html by comparing the unique ids
 embedded into the classNames */
 exports.updateCSS = function (css, classNames) {
   const stringArray = css.split(' ');
-  console.log(stringArray)
   const state = classNameState(classNames);
   const updatedCSS = updateClassNames(stringArray, state);
-
-
   const newClassNames = state.getNewClassNames()
-  const addNewCss = newClassNames.map(className => {
-    return `.${className} 
-{
-
-}
-
-`;
-  });
-
-  const newCssFile = [...updatedCSS, ...addNewCss].join(' ');
+  const newCss = addNewCSS(newClassNames);
+  const newCssFile = [...updatedCSS, ...newCss].join(' ');
   return newCssFile;
 };

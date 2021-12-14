@@ -8,7 +8,7 @@ exports.createPageFiles = function (name) {
   }
   const jsFile = {
     name: `${name}.js`,
-    data: entryScript
+    data: entryScript()
   };
   const cssFile = `${name}.css`;
   return [htmlFile, jsFile, cssFile];
