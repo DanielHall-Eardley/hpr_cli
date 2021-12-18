@@ -1,9 +1,11 @@
 /* todo
-  create the css file using the same process of 
-  creating js interaction files by parsing html.
-  import all css into page level css
-  do the same for ejs
-  import interaction into eventlistener adding function
+  Preserve update imports in input and submit files
+  Change the update fn to have the code for finding 
+  the html element prewritten
+  import and combine the input and submit interction files
+  for each component into the main page js file
+  create the the build bundle
+  change the template render engine to handlebars
 */
 
 const { getPages } = require('./getPages.js')
@@ -21,7 +23,7 @@ const { createCompFilePath } = require('../fileMod/createCompFilePath');
 exports.compile = async function (relativePath=__dirname) {
   const pages = getPages(relativePath);
 
-  for (let pageName of pages)  {
+  for (let pageName of pages) {
     const pagePath = path.join(relativePath, 'pages', pageName);
     const componentPath = path.join(pagePath, 'components');
     const components = fs.readdirSync(componentPath);
@@ -33,7 +35,7 @@ exports.compile = async function (relativePath=__dirname) {
       const html = getHtmlElements(htmlFile);
       const data = await parse(html, basePath);
       writeComponent(data, basePath);
-    };
+    }
 
     writePage(components, pagePath);
   }

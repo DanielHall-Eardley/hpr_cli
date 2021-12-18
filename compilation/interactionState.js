@@ -1,11 +1,10 @@
 const { interactionConstants } = require('../constants');
-const { INT_SUBMIT, INT_INPUT, INT_UPDATE } = interactionConstants;
+const { INT_SUBMIT, INT_INPUT } = interactionConstants;
 
 exports.interactionState = function() {
   let state = {
     [INT_SUBMIT]: {},
-    [INT_INPUT]: {},
-    [INT_UPDATE]: {},
+    [INT_INPUT]: {}
   }
 
   return {

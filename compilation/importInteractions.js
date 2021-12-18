@@ -1,11 +1,9 @@
 const { interactionConstants } = require('../constants.js');
-const { INT_SUBMIT, INT_INPUT, INT_UPDATE } = interactionConstants;
-const path = require('path');
+const { INT_SUBMIT, INT_INPUT } = interactionConstants;
 
 const interactionFiles = [
   INT_INPUT,
-  INT_SUBMIT,
-  INT_UPDATE
+  INT_SUBMIT
 ];
 
 function createImportPromises (basePath, fileNameArray) {
