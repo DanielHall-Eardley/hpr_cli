@@ -1,3 +1,5 @@
+const fns = require('./update')  
+
 module.exports = {
   '32bcada8-63c4-4170-a0a2-c6974258a0af': {
     interactionType: 'input',

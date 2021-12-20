@@ -1,5 +1,4 @@
-const { writeFileSync, constants} = require('fs');
-const { access } = require('fs/promises');
+const fs = require('fs');
 const path = require('path');
 
 /* Check each component for a existing css file.
@@ -8,25 +7,20 @@ a formatted string. Write the string containing
 all imports to the page css file containing the components*/
 
 exports.writeCssPage = async function (
-  components, 
+  componentFolder, 
   pagePath, 
-  writeFile=writeFileSync,
-  accessFile=access,
-  fsConstants=constants
+  pageName,
+  fileSystem=fs
 ) {
-  let importCssStrings = ''
-  for (let compName of components) {
-    const cssFilePath = path.join(pagePath, 'components', compName, `${compName}.css`);
-    const checkForFile = await accessFile(cssFilePath, fsConstants.F_OK);
-    console.log(checkForFile)
-    if (!checkForFile) {
-      const importString = `@import '${cssFilePath}'\n`;
-      importCssStrings += importString;
-    } 
-  }
-
-  const pathArray = pagePath.split('/')
-  const pageName = pathArray.at(-1);
+  const importCSSStrings = componentFolder.reduce((imports, folder) => {
+    const existingCSSFile = folder.dir.find(file => file.match('css'));
+    if (existingCSSFile) {
+      const relativePath = `@import './components/${folder.name}/${existingCSSFile}'`
+      imports += relativePath + '\n';
+    }
+    return imports;
+  })
+  
   const cssFilePath = path.join(pagePath, `${pageName}.css`)
-  writeFile(cssFilePath, importCssStrings);
+  fileSystem.writeFileSync(cssFilePath, importCSSStrings);
 };
