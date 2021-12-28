@@ -1,6 +1,11 @@
-const { createPage } = require('./structure/createPage.js');
-const { checkArg } = require('./util/checkArg.js');
-const pageName = process.argv.slice(2, 4)[0];
+const { create } = require('./structure/create.js');
+const { checkArgs } = require('./util/checkArgs.js');
+const { page } = require('./structure/page.js');
+const path = require('path');
 
-checkArg(pageName);
-createPage(pageName, './test');
+const commandLineArgs = process.argv;
+checkArgs(commandLineArgs);
+const pageName = commandLineArgs[2];
+const pagesFolder = path.resolve(path.join('./test', 'pages'))
+const pageStructure = page(pageName);
+create(pageStructure, pagesFolder);

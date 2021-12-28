@@ -1,7 +1,7 @@
 const { writeCssPage } = require('./writeCssPage');
 const { writeJSPage } = require('./writeJSPage');
 
-exports.writePage = function (components, pagePath) {
+exports.writePageFiles = function (components, pagePath) {
   const pathArray = pagePath.split('/')
   const pageName = pathArray.at(-1);
 

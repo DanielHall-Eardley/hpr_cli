@@ -3,6 +3,6 @@ exports.config = function (entryPoints) {
     entryPoints,
     bundle: true,
     minify: true,
-    outdir: 'dist',
+    outdir: 'build',
   }
 }

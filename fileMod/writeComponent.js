@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path')
 const { writeHTMLComponent } = require('./writeHTMLComponent');
 const { createCompFilePath } = require('./createCompFilePath');
+const { templateEngine } = require('../constants.js');
 
 async function writeInteractionFiles (interactions, basePath, fileSystem=fs) {
   const files = Object.keys(interactions);
@@ -39,7 +40,7 @@ async function formatInteractionObject (interactionObject) {
 }
 
 exports.writeComponent = async function(data, basePath, fileSystem=fs) {
-  const htmlFilePath = createCompFilePath(basePath, 'ejs');
+  const htmlFilePath = createCompFilePath(basePath, templateEngine);
   writeHTMLComponent(data.html, htmlFilePath)
 
   const cssFilePath = createCompFilePath(basePath, 'css');

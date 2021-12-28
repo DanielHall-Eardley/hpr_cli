@@ -1,10 +1,11 @@
-exports.createEntryPoints = function (pages) {
-  const entryPoints = pages.reduce((array, folderName) => {
-    const cssEntryPoint = `./pages/${folderName}.css`
-    const jsEntryPoint = `./pages/${folderName}.js`
+exports.createEntryPoints = function (pages, rootDir) {
+  const entryPoints = pages.reduce((array, pageName) => {
+    const baseEntryPoint = `./${rootDir}/pages/${pageName}/${pageName}`
+    const jsEntryPoint = `${baseEntryPoint}.js`
+    const cssEntryPoint = `${baseEntryPoint}.css`
 
-    array = [...array, jsEntryPoint, cssEntryPoint];
-    return array;
+    const newArray = [...array, jsEntryPoint, cssEntryPoint];
+    return newArray;
   }, [])
 
   return entryPoints;

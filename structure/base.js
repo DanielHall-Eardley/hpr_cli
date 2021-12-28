@@ -1,5 +1,7 @@
 const { server } = require('../files/server.js');
 const { basePage } = require('../files/basePage.js');
+const { templateEngine } = require('../constants.js');
+const { entryScript } = require('../files/entryScript');
 
 exports.dirStructure = [
   {
@@ -10,9 +12,12 @@ exports.dirStructure = [
         files: [
           { 
             data: basePage('home'),
-            name: 'home.ejs' 
+            name: `home.${templateEngine}` 
           }, 
-          'home.js', 
+          {
+            name: 'home.js',
+            data: entryScript
+          },
           'home.css'
         ],
         folders: ['components']

@@ -1,6 +1,6 @@
-const { writeFileSync } = require("fs");
-const { normalizePath } = require('./normalizePath');
+const fs = require("fs");
 const { getName } = require('./getName');
+const path = require('path');
 
 /* creates files = require an array.
 a string element indicates and empty file,
@@ -8,12 +8,11 @@ an onject indicates a file with data to be written */
 exports.makeFiles = function (
   fileArray, 
   dirPath,
-  createFile = writeFileSync,
 ) {
   fileArray.forEach(file => {
     const fileName = getName(file);
-    const absolutePath = normalizePath(fileName, dirPath);
+    const absolutePath = path.join(dirPath, fileName);
     const fileData = file.data ?? '';
-    createFile(absolutePath, fileData);
+    fs.writeFileSync(absolutePath, fileData);
   })
 };

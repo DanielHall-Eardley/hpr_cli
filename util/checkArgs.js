@@ -1,7 +1,7 @@
 const { throwError } = require('./error');
 
 /* Check for the presence of commandline argument */
-exports.checkArg = function (arg) {
-  if (!arg) throwError('Specify name');
+exports.checkArgs = function (args) {
+  if (args?.length < 2) throwError('Specify name');
   return true;
 }

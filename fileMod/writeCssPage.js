@@ -15,11 +15,11 @@ exports.writeCssPage = async function (
   const importCSSStrings = componentFolder.reduce((imports, folder) => {
     const existingCSSFile = folder.dir.find(file => file.match('css'));
     if (existingCSSFile) {
-      const relativePath = `@import './components/${folder.name}/${existingCSSFile}'`
+      const relativePath = `@import './components/${folder.name}/${existingCSSFile}';`
       imports += relativePath + '\n';
     }
     return imports;
-  })
+  }, '')
   
   const cssFilePath = path.join(pagePath, `${pageName}.css`)
   fileSystem.writeFileSync(cssFilePath, importCSSStrings);

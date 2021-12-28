@@ -1,4 +1,8 @@
-exports.entryScript = `
+ 
+ const interactions = [
+    
+  ] 
+ 
 function attachEventListeners (interactions=[]) {
   interactions.forEach(interaction => {
     const element = document.getElementById(interaction.id);
@@ -7,5 +11,3 @@ function attachEventListeners (interactions=[]) {
 }
 
 onload = attachEventListeners(interactions)
-`
-

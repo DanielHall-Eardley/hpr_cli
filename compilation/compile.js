@@ -1,9 +1,5 @@
 /* todo
-  create the css file using the same process of 
-  creating js interaction files by parsing html.
-  import all css into page level css
-  do the same for ejs
-  import interaction into eventlistener adding function
+  
 */
 
 const { getPages } = require('./getPages.js')
@@ -17,6 +13,7 @@ const { parse } = require('./parse.js');
 const { writeComponent } = require('../fileMod/writeComponent.js');
 const { writePageFiles } = require('../fileMod/writePageFiles.js');
 const { createCompFilePath } = require('../fileMod/createCompFilePath');
+const { templateEngine } = require('../constants.js')
 
 function componentDirState () {
   let state = [];
@@ -37,18 +34,18 @@ function componentDirState () {
 }
 
 
-exports.compile = async function (relativePath=__dirname) {
-  const pages = getPages(relativePath);
+exports.compile = async function (rootDir=__dirname) {
+  const pages = getPages(rootDir);
 
   for (let pageName of pages)  {
-    const pagePath = path.join(relativePath, 'pages', pageName);
+    const pagePath = path.join(rootDir, 'pages', pageName);
     const componentFolderPath = path.join(pagePath, 'components');
     const components = fs.readdirSync(componentFolderPath);
     const componentState = componentDirState();
 
     for (let compName of components) {
       const componentPath = path.join(componentFolderPath, compName);
-      const htmlFilePath = createCompFilePath(componentPath, 'ejs');
+      const htmlFilePath = createCompFilePath(componentPath, templateEngine);
       const htmlFile = fs.readFileSync(htmlFilePath, { encoding: 'utf8'});
       const html = getHtmlElements(htmlFile);
       const data = await parse(html, componentPath);
@@ -61,8 +58,7 @@ exports.compile = async function (relativePath=__dirname) {
     writePageFiles(componentFolders, pagePath);
   }
   
-  // const entryPoints = createEntryPoints(pages);
-  // // add entry points from pages array
-  // const newConfig = config(entryPoints);
-  // es.build(newConfig);
+  const entryPoints = createEntryPoints(pages, rootDir);
+  const newConfig = config(entryPoints);
+  es.build(newConfig);
 }

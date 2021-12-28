@@ -1,26 +1,26 @@
-const { makeDir } = require('../fileMod/makeDir.js');
 const { makeFiles } = require('../fileMod/makeFiles');
-const { normalizePath } = require('../fileMod/normalizePath');
 const { getName } = require('../fileMod/getName');
+const path = require('path');
+const fs = require('fs');
+
 
 /* This function expects an array with
 elements that are either a string or object
-the string represents an empty folder, whereis an
-onject can have files and subfolders. */
+the string represents an empty folder, but an
+object can have files and subfolders. */
 function create (
   dirStructure,
   rootDir,
-  createDir = makeDir,
   createFiles = makeFiles
 ) {
   if (!rootDir) {
-    throw new Error('Must specify project name')
+    throw new Error('Must specify root directory')
   }
 
   dirStructure.forEach(dir => {
     const dirName = getName(dir);
-    const dirPath = normalizePath(dirName, rootDir);
-    createDir(dirPath);
+    const dirPath = path.join(rootDir, dirName);
+    fs.mkdirSync(dirPath);
 
     if (dir.files) {
       createFiles(dir.files, dirPath);
