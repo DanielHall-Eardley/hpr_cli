@@ -25,10 +25,6 @@ exports.dirStructure = [
     ]
   },
   'build',
-  {
-    name: 'ssrRoutes',
-    files: ['routes.js']
-  },
   'util',
   {
     name: 'api',

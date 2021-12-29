@@ -1,7 +1,3 @@
-/* todo
-  
-*/
-
 const { getPages } = require('./getPages.js')
 const es = require('esbuild');
 const { config } = require('../buildConfig/config.js');
