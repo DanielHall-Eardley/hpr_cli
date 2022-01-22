@@ -86,5 +86,6 @@ exports.dirStructure = [
         data: globalCSS
       }
     ]
-  }
+  },
+  '.gitignore'
 ];
