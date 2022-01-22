@@ -1,3 +1,7 @@
-const { compile } = require('./compilation/compile.js');
+#!/usr/bin/env node
 
-compile('./test');
+const { compile } = require('./compilation/compile.js');
+const path = require('path');
+const pageFolder = path.resolve('pages');
+
+compile(pageFolder);

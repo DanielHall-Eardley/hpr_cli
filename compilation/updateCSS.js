@@ -4,7 +4,8 @@ function classNameState (newClassNames) {
   return {
     updateClassName(existingClassName, id) {
       /* Check if the existing css class 
-      still has a className attached to a html element. */
+      still has a className attached to a html element. 
+      */
       if (classNames[id]) {
         const existingString = existingClassName.split('.')[0];
         const newClassName = `${existingString}.${classNames[id]}`;
@@ -14,11 +15,13 @@ function classNameState (newClassNames) {
 
       return '\n';
     },
+    /* Get the classNames that have been newly added to the html 
+    and put them into an array*/
     getNewClassNames() {
-      const objectKeys = Object.keys(classNames);
+      const uniqueIds = Object.keys(classNames);
       const newClassNameArray = [];
-      for (let key of objectKeys) {
-        const className = classNames[key]
+      for (let id of uniqueIds) {
+        const className = classNames[id]
         if (className) {
           newClassNameArray.push(className)
         }
@@ -61,8 +64,8 @@ check each string to find out if it is a className.
 If it is a className, replace it with latest className
 from the parsed html by comparing the unique ids
 embedded into the classNames */
-exports.updateCSS = function (css, classNames) {
-  const stringArray = css.split(' ');
+exports.updateCSS = function (existingCSS, classNames) {
+  const stringArray = existingCSS.split(' ');
   const state = classNameState(classNames);
   const updatedCSS = updateClassNames(stringArray, state);
   const newClassNames = state.getNewClassNames()

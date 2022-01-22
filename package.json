@@ -1,10 +1,17 @@
 {
   "name": "hpr_cli",
-  "version": "1.0.0",
-  "description": "vanilla ice",
-  "main": "index.js",
+  "version": "1.2.8",
+  "description": "Basic framework for creating SSR apps with partial page update",
+  "main": "compile_hpr.js",
+  "preferGlobal": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "hpr-compile": "./compile_hpr.js",
+    "hpr-create": "./create_hpr.js",
+    "hpr-create-page": "./create_hpr_page.js",
+    "hpr-create-component": "./create_hpr_comp.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +25,7 @@
   "homepage": "https://github.com/DanielHall-Eardley/hpr_cli#readme",
   "dependencies": {
     "esbuild": "^0.13.11",
-    "express-handlebars": "^6.0.2",
+    "eta": "^1.12.3",
     "jsdom": "^18.0.1",
     "prettier": "^2.5.0",
     "stringify-object": "^4.0.0",
