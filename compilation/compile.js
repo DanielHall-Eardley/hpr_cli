@@ -46,7 +46,7 @@ exports.compile = async function (pageFolder, fileSystem=fs) {
       const data = await parse(html, componentPath);
       await writeComponent(data, componentPath);
       const componentFiles = fileSystem.readdirSync(componentPath);
-      componentState.addComponentDir(compName, componentFiles);
+    componentState.addComponentDir(compName, componentFiles);
     }
 
     const componentFolders = componentState.getState();
