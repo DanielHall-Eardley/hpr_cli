@@ -2,10 +2,27 @@ const { server } = require('../files/server.js');
 const { basePage } = require('../files/basePage.js');
 const { templateEngine } = require('../constants.js');
 const { entryScript } = require('../files/entryScript');
+<<<<<<< HEAD
 const { catchAsyncError } = require('../files/utils/catchAsyncError');
 const { createHTMLComponent } = require('../files/utils/createHTMLComponent');
+=======
+const { defaultLayout } = require('../files/defaultLayout');
+const { pageRoutes } = require('../files/pageRoutes');
+const { pageController } = require('../files/pageController');
+const { globalCSS } = require('../files/globalCSS');
+const { catchAsyncError } = require('../files/catchAsyncError');
+>>>>>>> 01afba86294cdfd4b0c0b703da8396a283800bd5
 
 exports.dirStructure = [
+  {
+    name: 'layouts',
+    files: [
+      {
+        name: `default.${templateEngine}`,
+        data: defaultLayout()
+      }
+    ]
+  },
   {
     name: 'pages',
     folders: [
@@ -13,7 +30,7 @@ exports.dirStructure = [
         name: 'home',
         files: [
           { 
-            data: basePage('home'),
+            data: basePage(),
             name: `home.${templateEngine}` 
           }, 
           {
@@ -28,7 +45,7 @@ exports.dirStructure = [
   },
   'build',
   {
-    name: 'util',
+    name: 'utils',
     files: [
       {
         name: 'catchAsyncError',
@@ -48,10 +65,36 @@ exports.dirStructure = [
         name: 'server.js'
       }
     ],
-    folders: ['routes', 'controllers']
+    folders: [
+      'models',
+      {
+        name: 'routes',
+        files: [
+          {
+            name: 'page.js',
+            data: pageRoutes
+          }
+        ]
+      },
+      {
+        name: 'controllers',
+        files: [
+          {
+            name: 'pageController',
+            data: pageController
+          }
+        ]
+      }
+    ]
   },
   {
     name: 'global',
-    files: ['global.css']
-  }
+    files: [
+      {
+        name: 'global.css',
+        data: globalCSS
+      }
+    ]
+  },
+  '.gitignore'
 ];

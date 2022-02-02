@@ -3,4 +3,6 @@ exports.interactionConstants = {
   INT_INPUT: 'input'
 }
 
-exports.templateEngine = 'handlebars';
+exports.NO_SCOPED = 'noScoped'
+
+exports.templateEngine = 'eta';

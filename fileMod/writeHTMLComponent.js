@@ -7,6 +7,12 @@ exports.writeHTMLComponent = function (html, htmlPath) {
   const dom = new JSDOM(`<body></body>`);
   const mockBody = dom.window.document.body;
   mockBody.append(html);
-  const stringifiedHtml = format(mockBody.innerHTML, { parser: 'html'});
+  const prettierOptions = {
+    parser: 'html',
+    useTabs: true,
+    printWidth: 65,
+    htmlWhitespaceSensitivity: 'ignore'
+  }
+  const stringifiedHtml = format(mockBody.innerHTML, prettierOptions);
   fs.writeFileSync(htmlPath, stringifiedHtml);
 };

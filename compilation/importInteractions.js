@@ -1,4 +1,5 @@
 const { interactionConstants } = require('../constants.js');
+const path = require('path');
 const { INT_SUBMIT, INT_INPUT } = interactionConstants;
 
 const interactionFiles = [
@@ -8,8 +9,8 @@ const interactionFiles = [
 
 function createImportPromises (basePath, fileNameArray) {
   const importPromises = fileNameArray.map(fileName => {
-    const relativeFilePath = `../${basePath}/${fileName}.js`
-    const promise = import(relativeFilePath);
+    const filePath = path.join(basePath, `${fileName}.js`)
+    const promise = import(filePath);
     return promise;
   })
 
