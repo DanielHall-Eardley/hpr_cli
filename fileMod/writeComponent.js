@@ -20,7 +20,7 @@ function preserveFileImports (filePath, fileSystem=fs) {
   const fileData = fileSystem.readFileSync(filePath, { encoding: 'utf8' });
   const stringArray = fileData.split('\n');
   const imports = stringArray.filter(string => string.match('require'));
-  return imports.join(' ');
+  return imports.join('\n');
 }
 
 async function formatInteractionObject (interactionObject) {
