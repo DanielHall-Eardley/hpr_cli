@@ -22,3 +22,7 @@ data-name = function name
 By default a css module-like classname is generated [componentname]_[classname]_[uuid]
 
 Append _[noScoped] to leave the className unchanged
+
+## TODO
+
+- fix multiple classnames bug

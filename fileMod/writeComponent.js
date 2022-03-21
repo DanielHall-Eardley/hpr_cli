@@ -1,8 +1,5 @@
 const fs = require('fs');
 const path = require('path')
-const { writeHTMLComponent } = require('./writeHTMLComponent');
-const { createCompFilePath } = require('./createCompFilePath');
-const { templateEngine } = require('../constants.js');
 
 async function writeInteractionFiles (interactions, basePath, fileSystem=fs) {
   const files = Object.keys(interactions);
@@ -39,12 +36,6 @@ async function formatInteractionObject (interactionObject) {
   return `module.exports = ${fileData};`
 }
 
-exports.writeComponent = async function(data, basePath, fileSystem=fs) {
-  const htmlFilePath = createCompFilePath(basePath, templateEngine);
-  writeHTMLComponent(data.html, htmlFilePath)
-
-  const cssFilePath = createCompFilePath(basePath, 'css');
-  fileSystem.writeFileSync(cssFilePath, data.css);
-
+exports.writeComponent = async function(data, basePath) {
   writeInteractionFiles(data.interactions, basePath);
 }

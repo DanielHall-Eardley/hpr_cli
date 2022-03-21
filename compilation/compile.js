@@ -41,12 +41,12 @@ exports.compile = async function (pageFolder, fileSystem=fs) {
     for (let compName of components) {
       const componentPath = path.join(componentFolderPath, compName);
       const htmlFilePath = createCompFilePath(componentPath, templateEngine);
-      const htmlFile = fileSystem.readFileSync(htmlFilePath, { encoding: 'utf8'});
-      const html = getHtmlElements(htmlFile);
+      const htmlString = fileSystem.readFileSync(htmlFilePath, { encoding: 'utf8'});
+      const html = getHtmlElements(htmlString);
       const data = await parse(html, componentPath);
       await writeComponent(data, componentPath);
       const componentFiles = fileSystem.readdirSync(componentPath);
-    componentState.addComponentDir(compName, componentFiles);
+      componentState.addComponentDir(compName, componentFiles);
     }
 
     const componentFolders = componentState.getState();
