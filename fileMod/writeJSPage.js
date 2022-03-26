@@ -1,50 +1,69 @@
-const fs = require('fs');
-const path = require('path');
-const { entryScript } = require('../files/entryScript');
+const fs = require("fs");
+const path = require("path");
 
-function createJSImports (interactionFiles, reduceObj, folderName) {
+/* 
+Import all the files that the input and submit 
+interaction files and put them into an array.
+*/
+function createJSImports(interactionFiles, reduceObj, folderName) {
   for (let file of interactionFiles) {
-    const fileType = file.split('.')[0];
-    const fileName = `${fileType}_${folderName}`
-    reduceObj.imports += `import ${fileName} from './components/${folderName}/${file}' \n`
+    const fileType = file.split(".")[0];
+    const fileName = `${fileType}_${folderName}`;
+    reduceObj.imports += `import ${fileName} from './components/${folderName}/${file}' \n`;
     reduceObj.fileArray = [...reduceObj.fileArray, fileName];
   }
 
-  return reduceObj
+  return reduceObj;
 }
 
-function createJSFile (importObject) {
+// Seperate the old imports from the rest of the existing file
+function removeOldImports(existingFile) {
+  const removeImports = existingFile.split("<!>")[2];
+  return removeImports;
+}
+
+/* 
+  Update the imports but maintain
+  the rest of the existing file as is
+*/
+function createJSFile(importObject, existingFile) {
   const stringifiedArray = `const interactions = [
     ${importObject.fileArray.toString()}
   ]`;
-  
-  const file = `${importObject.imports} \n ${stringifiedArray} \n ${entryScript}`
-  return file
+
+  const importSection = `<!>\n${importObject.imports}\n${stringifiedArray}<!>`;
+  const file = `${importSection}\n${existingFile}`;
+  return file;
 }
 
 exports.writeJSPage = async function (
-  componentFolder, 
-  pagePath, 
+  componentFolder,
+  pagePath,
   pageName,
-  fileSystem=fs
+  fileSystem = fs
 ) {
-  const importObject = componentFolder.reduce((obj, folder) => {
-    const interactionFiles = folder.dir.filter(file => {
-      return file.match('input') || file.match('submit');
-    });
+  const importObject = componentFolder.reduce(
+    (obj, folder) => {
+      const interactionFiles = folder.dir.filter((file) => {
+        return file.match("input") || file.match("submit");
+      });
 
-    if (interactionFiles?.length > 0) {
-      const newObj = createJSImports(interactionFiles, obj, folder.name);
-      return newObj;
+      if (interactionFiles?.length > 0) {
+        const newObj = createJSImports(interactionFiles, obj, folder.name);
+        return newObj;
+      }
+
+      return obj;
+    },
+    {
+      imports: "",
+      fileArray: [],
     }
+  );
 
-    return obj;
-  }, {
-    imports: '',
-    fileArray: []
-  })
-  
   const jsFilePath = path.join(pagePath, `${pageName}.js`);
-  const jsFile = createJSFile(importObject);
+  const existingFile = fileSystem.readFileSync(jsFilePath);
+  const removeOldImportsFromFile = removeOldImports(existingFile);
+  const jsFile = createJSFile(importObject, removeOldImportsFromFile);
   fileSystem.writeFileSync(jsFilePath, jsFile);
 };

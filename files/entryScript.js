@@ -1,6 +1,6 @@
 exports.entryScript = `
 /* Convert multiple base objects containing objects
-into one array of objects as long as the base object 
+into one array of objects as long as the base objects 
 are not empty */
 function convertObjectsToArray (arrayOfObjects) {
   let reducedArray = [];
