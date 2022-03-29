@@ -1,6 +1,6 @@
 {
   "name": "hpr_cli",
-  "version": "1.4.9",
+  "version": "1.5.4",
   "description": "Basic framework for creating SSR apps with partial page update",
   "main": "compile_hpr.js",
   "preferGlobal": true,

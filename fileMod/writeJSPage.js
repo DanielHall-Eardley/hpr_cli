@@ -18,7 +18,7 @@ function createJSImports(interactionFiles, reduceObj, folderName) {
 
 // Seperate the old imports from the rest of the existing file
 function removeOldImports(existingFile) {
-  const removeImports = existingFile.split("<!>")[2];
+  const removeImports = existingFile.split("//<!>")[2];
   return removeImports;
 }
 
@@ -31,7 +31,7 @@ function createJSFile(importObject, existingFile) {
     ${importObject.fileArray.toString()}
   ]`;
 
-  const importSection = `<!>\n${importObject.imports}\n${stringifiedArray}<!>`;
+  const importSection = `//<!>\n${importObject.imports}\n${stringifiedArray}\n//<!>`;
   const file = `${importSection}\n${existingFile}`;
   return file;
 }
@@ -62,7 +62,7 @@ exports.writeJSPage = async function (
   );
 
   const jsFilePath = path.join(pagePath, `${pageName}.js`);
-  const existingFile = fileSystem.readFileSync(jsFilePath);
+  const existingFile = fileSystem.readFileSync(jsFilePath).toString();
   const removeOldImportsFromFile = removeOldImports(existingFile);
   const jsFile = createJSFile(importObject, removeOldImportsFromFile);
   fileSystem.writeFileSync(jsFilePath, jsFile);
